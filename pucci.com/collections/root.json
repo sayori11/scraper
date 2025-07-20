@@ -1,0 +1,17 @@
+{
+    "state": {
+        "page": 0
+    },
+    "rows": [
+        {
+            "id": "collections_new-in",
+            "text": "Continua lo shopping",
+            "url": "https://pucci.com/collections/new-in"
+        },
+        {
+            "id": "collections_marmo",
+            "text": "Scopri la nuova collezione SS25 Marmo",
+            "url": "https://pucci.com/collections/marmo"
+        }
+    ]
+}
