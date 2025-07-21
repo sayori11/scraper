@@ -138,12 +138,15 @@ class PucciScraper(BaseScraper):
         new_url = urlunparse(parsed._replace(query=new_query))
         return current_page + 1, new_url
 
-    async def detail(self, tag: str, parent_data: dict) -> dict:
-        print(f"Scraping details for {parent_data['url']}")
-        soup = await self.get_soup(parent_data["url"])
-        title = soup.find("h1", id="product-title").get_text(strip=True)
-        price = soup.find("span", class_="price-item").get_text(strip=True)
-        return {"details": {"title": title, "price": price}}
+    async def detail(self, tag: str, parent_data: list[dict]) -> dict:
+        details = {}
+        for item in parent_data:
+            print(f"Scraping details for {item['url']}")
+            soup = await self.get_soup(item["url"])
+            title = soup.find("h1", id="product-title").get_text(strip=True)
+            price = soup.find("span", class_="price-item").get_text(strip=True)
+            details[item["id"]] = {"title": title, "price": price}
+        return details
 
 
 async def main():

@@ -151,12 +151,11 @@ class BaseScraper(ABC):
         return scraped_data
 
     async def extract_detail(self, tag: str, parent_tag_data: dict) -> dict:
-        scraped_data = {}
+        detail_data = {}
         for _, item_data in parent_tag_data.items():
-            for item in item_data.get("rows", []):
-                scraped_data[item["id"]] = await self.detail(tag=tag, parent_data=item)
-
-        return scraped_data
+            scraped_data = await self.detail(tag=tag, parent_data=item_data.get("rows", []))
+            detail_data.update(scraped_data)
+        return detail_data
 
     @abstractmethod
     async def directory(
@@ -164,7 +163,7 @@ class BaseScraper(ABC):
     ) -> dict: ...
 
     @abstractmethod
-    async def detail(self, tag: str, parent_data: dict) -> dict: ...
+    async def detail(self, tag: str, parent_data: list[dict]) -> dict: ...
 
     async def scrape_directory(
         self, tag: str, parent_tag: Optional[str] = None
